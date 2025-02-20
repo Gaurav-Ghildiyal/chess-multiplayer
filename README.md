@@ -106,11 +106,15 @@ Then, **redeploy the project**.
 
 ## 📝 To-Do (Future Enhancements)
 
+
+- 🔹 **Fix UI** 
+- 🔹 **Add audio support to move the pieces** 
 - 🔹 **Add a Chat Feature**  
 - 🔹 **Show Move History (PGN Format)**  
 - 🔹 **Timers for Each Player**  
 - 🔹 **AI Opponent Mode**  
 - 🔹 **Leaderboard & Player Stats**  
+- 🔹 **Login support** 
 
 ---
 
