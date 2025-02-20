@@ -2,14 +2,14 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBxof61iyCyCBlz7Lj_cDsFyzsRkOMcbyM",
-  authDomain: "chess-d721a.firebaseapp.com",
-  projectId: "chess-d721a",
-  storageBucket: "chess-d721a.appspot.com",
-  messagingSenderId: "1066329193954",
-  appId: "1:1066329193954:web:be7e8c5b262a3bb4e44dbb",
-  measurementId: "G-D99ZXY0CS5",
-  databaseURL: "https://chess-d721a-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
 };
 
 const app = initializeApp(firebaseConfig);
