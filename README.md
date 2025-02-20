@@ -135,7 +135,7 @@ If you want to contribute:
 
 🔹 **Developer:** Gaurav Ghildiyal  
 🔹 **GitHub:** [@Gaurav-Ghildiyal](https://github.com/Gaurav-Ghildiyal)  
-🔹 **Email:** `your-email@example.com` (optional)
+🔹 **Email:** `gghildiyal299@gmail.com`
 
 ---
 
