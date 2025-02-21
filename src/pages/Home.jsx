@@ -2,6 +2,8 @@ import { useState } from "react";
 import { database } from "../firebaseConfig";
 import { ref, set, get, update } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import board from "../assets/board.png";
+
 
 const Home = () => {
   const [roomCode, setRoomCode] = useState("");
@@ -59,6 +61,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <img src={board} alt="Chess Board" />
       <input
         type="text"
         placeholder="Enter Your Name"
