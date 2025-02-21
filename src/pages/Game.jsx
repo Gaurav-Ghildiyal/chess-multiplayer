@@ -104,33 +104,61 @@ const Game = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg text-center">
-        <h1 className="text-2xl font-bold text-gray-800">Room: {roomId}</h1>
-        <p className="text-lg text-gray-600">{playerName} ({playerColor || "waiting..."}) vs {opponentName || "Waiting..."}</p>
-        {isWaiting && <p className="text-blue-500 mt-2">Waiting for another player to join...</p>}
-        {winner ? (
-          <>
-            <h2 className="text-xl font-bold text-green-600 mt-2">Game Over! Winner: {winner}</h2>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded mt-4" onClick={playAgain}>Play Again</button>
-          </>
-        ) : null}
-        <Chessboard 
-          position={game.fen()} 
-          onPieceDrop={handleMove} 
-          onPieceClick={handlePieceClick} 
-          boardWidth={400} 
-          customSquareStyles={{
-            ...(selectedSquare ? { [selectedSquare]: { backgroundColor: "rgba(255,255,0,0.6)" } } : {}),
-            ...possibleMoves.reduce((acc, move) => {
-              acc[move] = { backgroundColor: "rgba(0,255,0,0.4)" };
-              return acc;
-            }, {})
-          }}
-        />
-        <div className="flex gap-4 mt-4">
-          <button className="px-4 py-2 bg-red-500 text-white rounded" onClick={resignGame} disabled={winner}>Resign</button>
-          <button className="px-4 py-2 bg-gray-500 text-white rounded" onClick={leaveGame}>Leave</button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
+      <div className="flex flex-col md:flex-row items-center gap-8 w-full max-w-4xl">
+        {/* Chessboard - adjust size for mobile */}
+        <div className="w-full md:flex-1 max-w-[90vw]">
+          <Chessboard 
+            position={game.fen()} 
+            onPieceDrop={handleMove} 
+            onPieceClick={handlePieceClick} 
+            boardWidth={Math.min(window.innerWidth * 0.9, 480)}
+            customSquareStyles={{
+              ...(selectedSquare ? { [selectedSquare]: { backgroundColor: "rgba(255,255,0,0.6)" } } : {}),
+              ...possibleMoves.reduce((acc, move) => {
+                acc[move] = { backgroundColor: "rgba(0,255,0,0.4)" };
+                return acc;
+              }, {})
+            }}
+          />
+        </div>
+
+        {/* Info section - full width on mobile */}
+        <div className="w-full md:flex-1 bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg">
+          <h1 className="text-xl md:text-2xl font-bold text-white truncate">Room: {roomId}</h1>
+          <p className="text-sm md:text-lg text-gray-400 mt-2 truncate">
+            {playerName} ({playerColor || "waiting..."}) vs {opponentName || "Waiting..."}
+          </p>
+          
+          {isWaiting && <p className="text-blue-500 mt-2 text-sm md:text-base">Waiting for another player to join...</p>}
+          
+          {winner && (
+            <>
+              <h2 className="text-lg md:text-xl font-bold text-green-500 mt-2">Game Over! Winner: {winner}</h2>
+              <button 
+                className="w-full md:w-auto px-4 py-2 bg-blue-500 text-white rounded mt-4"
+                onClick={playAgain}
+              >
+                Play Again
+              </button>
+            </>
+          )}
+          
+          <div className="flex flex-col md:flex-row gap-2 mt-4">
+            <button 
+              className="w-full md:w-auto px-4 py-2 bg-red-500 text-white rounded"
+              onClick={resignGame} 
+              disabled={winner}
+            >
+              Resign
+            </button>
+            <button 
+              className="w-full md:w-auto px-4 py-2 bg-gray-600 text-white rounded"
+              onClick={leaveGame}
+            >
+              Leave
+            </button>
+          </div>
         </div>
       </div>
     </div>

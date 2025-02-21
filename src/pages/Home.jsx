@@ -11,7 +11,6 @@ const Home = () => {
   const [isJoining, setIsJoining] = useState(false);
   const navigate = useNavigate();
 
-  // Create a new room
   const createRoom = async () => {
     if (!playerName) {
       alert("Please enter your name first!");
@@ -24,19 +23,18 @@ const Home = () => {
       player1: { name: playerName, color: "white" },
       player2: null,
       turn: "white",
-      fen: "", // Initial FEN for chess state
+      fen: "", 
     });
 
     navigate(`/game/${code}?name=${playerName}`);
   };
 
-  // Handle join room logic
   const handleJoinRoomClick = () => {
     if (!playerName) {
       alert("Please enter your name first!");
       return;
     }
-    setIsJoining(true); // Show the room code input box
+    setIsJoining(true); 
   };
 
   const joinRoom = async () => {
@@ -67,9 +65,12 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
+    <div className="relative flex flex-col h-screen bg-gray-100 md:bg-none">
+      {/* Background Image for Mobile */}
+      <div className="absolute inset-0 bg-cover bg-center md:hidden" style={{ backgroundImage: `url(${board})`, filter: "blur(8px)" }}></div>
+
       {/* Navbar */}
-      <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
+      <nav className="relative bg-blue-600 text-white p-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <FaChessKnight size={24} />
           <span className="text-lg font-semibold">Multiplayer Chess</span>
@@ -80,16 +81,16 @@ const Home = () => {
       </nav>
 
       {/* Main Content */}
-      <div className="flex flex-grow">
-        {/* Left Side - Chess Board */}
-        <div className="flex items-center justify-center w-1/2">
-          <img src={board} alt="Chess Board" className="h-96 w-96" />
+      <div className="relative flex flex-col items-center justify-center flex-grow p-4 md:flex-row">
+        {/* Left Side - Chess Board (Hidden on Small Screens) */}
+        <div className="hidden md:flex justify-center w-full md:w-1/2 mb-4 md:mb-0">
+          <img src={board} alt="Chess Board" className="w-80 md:w-96" />
         </div>
 
-        {/* Right Side - Room Options */}
-        <div className="flex flex-col justify-center items-center w-1/2">
-          <div className="bg-white shadow-lg rounded-lg p-6 w-80 text-center">
-            <h1 className="text-2xl font-semibold mb-4">Join or Create a Room</h1>
+        {/* Right Side - Room Options (Centered on Mobile) */}
+        <div className="relative flex flex-col justify-center items-center w-full md:w-1/2">
+          <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-xs text-center">
+            <h1 className="text-xl md:text-2xl font-semibold mb-4">Join or Create a Room</h1>
 
             {/* Name Input */}
             <input
@@ -97,19 +98,19 @@ const Home = () => {
               placeholder="Enter Your Name"
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
-              className="border p-2 w-full rounded mb-3"
+              className="border p-2 w-full rounded mb-3 text-lg"
             />
 
             {/* Buttons */}
             <button
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition mb-3"
+              className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-lg mb-3"
               onClick={createRoom}
             >
               Create Room
             </button>
 
             <button
-              className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+              className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition text-lg"
               onClick={handleJoinRoomClick}
             >
               Join Room
@@ -124,10 +125,10 @@ const Home = () => {
                   placeholder="Enter 4-digit Room Code"
                   value={roomCode}
                   onChange={(e) => setRoomCode(e.target.value)}
-                  className="border p-2 w-full rounded mb-3"
+                  className="border p-2 w-full rounded mb-3 text-lg"
                 />
                 <button
-                  className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                  className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition text-lg"
                   onClick={joinRoom}
                 >
                   Enter Room
