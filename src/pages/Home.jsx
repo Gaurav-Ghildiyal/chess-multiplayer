@@ -59,34 +59,57 @@ const Home = () => {
 };
 
 
-  return (
-    <>
-    <img src={board} alt="Chess Board" className="h-32 w-32" />
-    <div className="flex flex-col items-center justify-center h-screen gap-4">
-      
-      <input
-        type="text"
-        placeholder="Enter Your Name"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-        className="border p-2"
-      />
-      <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={createRoom}>
-        Create Room
-      </button>
-      <input
-        type="text"
-        placeholder="Enter 4-digit Code"
-        value={roomCode}
-        onChange={(e) => setRoomCode(e.target.value)}
-        className="border p-2"
-      />
-      <button className="px-4 py-2 bg-green-500 text-white rounded" onClick={joinRoom}>
-        Join Room
-      </button>
+return (
+  <div className="flex h-screen bg-gray-100">
+    {/* Left Side - Chess Board */}
+    <div className="flex items-center justify-center w-1/2">
+      <img src={board} alt="Chess Board" className="h-96 w-96" />
     </div>
-    </>
-  );
+
+    {/* Right Side - Room Creation & Joining */}
+    <div className="flex flex-col justify-center items-center w-1/2">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-80 text-center">
+        <h1 className="text-2xl font-semibold mb-4">Multiplayer Chess</h1>
+
+        {/* Name Input */}
+        <input
+          type="text"
+          placeholder="Enter Your Name"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          className="border p-2 w-full rounded mb-3"
+        />
+
+        {/* Create Room Button */}
+        <button
+          className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          onClick={createRoom}
+        >
+          Create Room
+        </button>
+
+        <div className="my-4 border-t"></div> {/* Divider */}
+
+        {/* Room Code Input */}
+        <input
+          type="text"
+          placeholder="Enter 4-digit Code"
+          value={roomCode}
+          onChange={(e) => setRoomCode(e.target.value)}
+          className="border p-2 w-full rounded mb-3"
+        />
+
+        {/* Join Room Button */}
+        <button
+          className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          onClick={joinRoom}
+        >
+          Join Room
+        </button>
+      </div>
+    </div>
+  </div>
+);
 };
 
 export default Home;
