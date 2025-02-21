@@ -3,17 +3,18 @@ import { database } from "../firebaseConfig";
 import { ref, set, get, update } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import board from "../assets/board.png";
-
+import { FaChessKnight } from "react-icons/fa";
 
 const Home = () => {
-  const [roomCode, setRoomCode] = useState("");
   const [playerName, setPlayerName] = useState("");
+  const [roomCode, setRoomCode] = useState("");
+  const [isJoining, setIsJoining] = useState(false);
   const navigate = useNavigate();
 
-  // Generate a 4-digit random room code
+  // Create a new room
   const createRoom = async () => {
     if (!playerName) {
-      alert("Enter your name to create a room!");
+      alert("Please enter your name first!");
       return;
     }
 
@@ -29,87 +30,115 @@ const Home = () => {
     navigate(`/game/${code}?name=${playerName}`);
   };
 
-  // Join an existing room
- const joinRoom = async () => {
-  if (!playerName) {
-    alert("Enter your name to join a room!");
-    return;
-  }
+  // Handle join room logic
+  const handleJoinRoomClick = () => {
+    if (!playerName) {
+      alert("Please enter your name first!");
+      return;
+    }
+    setIsJoining(true); // Show the room code input box
+  };
 
-  const roomRef = ref(database, `rooms/${roomCode}`);
-  const roomSnapshot = await get(roomRef);
-  const roomData = roomSnapshot.val();
+  const joinRoom = async () => {
+    if (!roomCode) {
+      alert("Please enter the 4-digit room code!");
+      return;
+    }
 
-  if (!roomData) {
-    alert("Room does not exist!");
-    return;
-  }
+    const roomRef = ref(database, `rooms/${roomCode}`);
+    const roomSnapshot = await get(roomRef);
+    const roomData = roomSnapshot.val();
 
-  // Make sure player 2 is joining the room and update the room with player2 info
-  if (roomData.player2) {
-    alert("Room is already full!");
-    return;
-  }
+    if (!roomData) {
+      alert("Room does not exist!");
+      return;
+    }
 
-  await update(roomRef, {
-    player2: { name: playerName, color: "black" },
-  });
+    if (roomData.player2) {
+      alert("Room is already full!");
+      return;
+    }
 
-  navigate(`/game/${roomCode}?name=${playerName}`);
-};
+    await update(roomRef, {
+      player2: { name: playerName, color: "black" },
+    });
 
+    navigate(`/game/${roomCode}?name=${playerName}`);
+  };
 
-return (
-  <div className="flex h-screen bg-gray-100">
-    {/* Left Side - Chess Board */}
-    <div className="flex items-center justify-center w-1/2">
-      <img src={board} alt="Chess Board" className="h-96 w-96" />
-    </div>
-
-    {/* Right Side - Room Creation & Joining */}
-    <div className="flex flex-col justify-center items-center w-1/2">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-80 text-center">
-        <h1 className="text-2xl font-semibold mb-4">Multiplayer Chess</h1>
-
-        {/* Name Input */}
-        <input
-          type="text"
-          placeholder="Enter Your Name"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          className="border p-2 w-full rounded mb-3"
-        />
-
-        {/* Create Room Button */}
-        <button
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-          onClick={createRoom}
-        >
-          Create Room
+  return (
+    <div className="flex flex-col h-screen bg-gray-100">
+      {/* Navbar */}
+      <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <FaChessKnight size={24} />
+          <span className="text-lg font-semibold">Multiplayer Chess</span>
+        </div>
+        <button className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-700">
+          Account Settings
         </button>
+      </nav>
 
-        <div className="my-4 border-t"></div> {/* Divider */}
+      {/* Main Content */}
+      <div className="flex flex-grow">
+        {/* Left Side - Chess Board */}
+        <div className="flex items-center justify-center w-1/2">
+          <img src={board} alt="Chess Board" className="h-96 w-96" />
+        </div>
 
-        {/* Room Code Input */}
-        <input
-          type="text"
-          placeholder="Enter 4-digit Code"
-          value={roomCode}
-          onChange={(e) => setRoomCode(e.target.value)}
-          className="border p-2 w-full rounded mb-3"
-        />
+        {/* Right Side - Room Options */}
+        <div className="flex flex-col justify-center items-center w-1/2">
+          <div className="bg-white shadow-lg rounded-lg p-6 w-80 text-center">
+            <h1 className="text-2xl font-semibold mb-4">Join or Create a Room</h1>
 
-        {/* Join Room Button */}
-        <button
-          className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          onClick={joinRoom}
-        >
-          Join Room
-        </button>
+            {/* Name Input */}
+            <input
+              type="text"
+              placeholder="Enter Your Name"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              className="border p-2 w-full rounded mb-3"
+            />
+
+            {/* Buttons */}
+            <button
+              className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition mb-3"
+              onClick={createRoom}
+            >
+              Create Room
+            </button>
+
+            <button
+              className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+              onClick={handleJoinRoomClick}
+            >
+              Join Room
+            </button>
+
+            {/* Room Code Input (Only shows if Join Room is clicked) */}
+            {isJoining && (
+              <>
+                <div className="my-4 border-t"></div> {/* Divider */}
+                <input
+                  type="text"
+                  placeholder="Enter 4-digit Room Code"
+                  value={roomCode}
+                  onChange={(e) => setRoomCode(e.target.value)}
+                  className="border p-2 w-full rounded mb-3"
+                />
+                <button
+                  className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                  onClick={joinRoom}
+                >
+                  Enter Room
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Home;
