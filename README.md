@@ -147,20 +147,3 @@ If you want to contribute:
 ```
 
 ---
-
-## **📌 Why This README is Good**
-✅ **Well-structured & easy to follow**  
-✅ **Covers installation, setup, and deployment**  
-✅ **Explains game features & future improvements**  
-✅ **Includes GitHub and contact details**  
-
----
-
-### **🚀 Next Steps**
-- **Copy the README.md** into your project.
-- **Push it to GitHub:**
-  ```sh
-  git add README.md
-  git commit -m "Added README"
-  git push
-  ```
