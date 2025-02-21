@@ -60,8 +60,10 @@ const Home = () => {
 
 
   return (
+    <>
+    <img src={board} alt="Chess Board" className="h-32 w-32" />
     <div className="flex flex-col items-center justify-center h-screen gap-4">
-      <img src={board} alt="Chess Board" />
+      
       <input
         type="text"
         placeholder="Enter Your Name"
@@ -83,6 +85,7 @@ const Home = () => {
         Join Room
       </button>
     </div>
+    </>
   );
 };
 
