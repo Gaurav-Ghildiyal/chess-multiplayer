@@ -108,19 +108,22 @@ const Game = () => {
       <div className="flex flex-col md:flex-row items-center gap-8 w-full max-w-4xl">
         {/* Chessboard - adjust size for mobile */}
         <div className="w-full md:flex-1 max-w-[90vw]">
-          <Chessboard 
-            position={game.fen()} 
-            onPieceDrop={handleMove} 
-            onPieceClick={handlePieceClick} 
-            boardWidth={Math.min(window.innerWidth * 0.9, 480)}
-            customSquareStyles={{
-              ...(selectedSquare ? { [selectedSquare]: { backgroundColor: "rgba(255,255,0,0.6)" } } : {}),
-              ...possibleMoves.reduce((acc, move) => {
-                acc[move] = { backgroundColor: "rgba(0,255,0,0.4)" };
-                return acc;
-              }, {})
-            }}
-          />
+        <Chessboard 
+  position={game.fen()} 
+  onPieceDrop={handleMove} 
+  onPieceClick={handlePieceClick} 
+  boardWidth={Math.min(window.innerWidth * 0.9, 480)}
+  customSquareStyles={{
+    ...(selectedSquare ? { [selectedSquare]: { backgroundColor: "rgba(255,255,0,0.6)" } } : {}),
+    ...possibleMoves.reduce((acc, move) => {
+      acc[move] = { backgroundColor: "rgba(0,255,0,0.4)" };
+      return acc;
+    }, {})
+  }}
+  boardOrientation={playerColor === "black" ? "black" : "white"}  // Flip board for Black
+/>
+
+
         </div>
 
         {/* Info section - full width on mobile */}
